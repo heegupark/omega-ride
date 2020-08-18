@@ -1,6 +1,6 @@
 .map-container {
-  min-width: 100vh;
-  min-height: 100vh;
+  /* min-width: 100vh; */
+  /* min-height: 100vh; */
   width: 100%;
   height: 100vh;
 }
@@ -20,7 +20,7 @@
   z-index: 1;
   width: 400px;
   height: 90%;
-  border-radius: 5px;
+  border-radius: 7px;
   padding: 15px 15px 0px 15px;
 }
 
@@ -28,7 +28,7 @@
   width: 100%;
   height: 100px;
   background-color: rgb(39,39,52);
-  border-radius: 5px;
+  border-radius: 7px;
   padding: 10px;
   font-size: 14px;
 }
@@ -48,8 +48,29 @@
   font-size: 12px;
 }
 
+.clear-box {
+  z-index: 1;
+  right: 15px;
+  margin-top: -41px;
+  width: 40px;
+  height: 100%;
+  font-size: 18px;
+}
+
 .purple {
   color: rgb(175,140,244);
+}
+
+.caret-purple {
+  caret-color: rgb(175,140,244);
+}
+
+.pink {
+  color: rgb(223,122,194);
+}
+
+.caret-pink {
+  caret-color: rgb(223,122,194);
 }
 
 .input-box {

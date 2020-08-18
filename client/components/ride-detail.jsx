@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 
-const CustomTextField = withStyles({
+const InputTextField = withStyles({
   root: {
     '& label': {
       paddingLeft: '30px',
@@ -15,16 +15,14 @@ const CustomTextField = withStyles({
       paddingLeft: '35px',
       backgroundColor: 'transparent',
       color: 'white',
-      borderRadius: '4px',
-      border: '1px solid rgb(128,128,131)',
-      caretColor: 'rgb(175,140,244)'
+      borderRadius: '7px',
+      border: '1px solid rgb(128,128,131)'
     },
     '& .MuiInputBase-input:hover': {
       backgroundColor: 'transparent',
       color: 'white',
-      borderRadius: '4px',
-      border: '1px solid rgb(128,128,131)',
-      caretColor: 'rgb(175,140,244)'
+      borderRadius: '7px',
+      border: '1px solid rgb(128,128,131)'
     },
     '& .MuiInputBase-input:focus': {
       paddingLeft: '35px',
@@ -37,6 +35,9 @@ const CustomTextField = withStyles({
 })(TextField);
 
 export default function RideDetail() {
+  const [pickupValue, setPickupValue] = useState(undefined);
+  const [dropoffValue, setDropoffValue] = useState(undefined);
+
   return (
     <div className="position-absolute fixed-bottom ride-detail-position ride-dark">
       <div className="info-box">
@@ -46,19 +47,61 @@ export default function RideDetail() {
         <h4 className="text-white text-bolder">Where are you going?</h4>
       </div>
       <div className="my-3 mx-auto">
-        <div className="dot-box text-center position-absolute">
-          <span className="purple">
-            <i className="fas fa-dot-circle"></i>
-          </span>
-        </div>
-        <div>
-          <CustomTextField
-            id="filled-pickup-input"
+        <div className="my-2">
+          <div className="dot-box text-center position-absolute">
+            <span className="purple">
+              <i className="fas fa-dot-circle"></i>
+            </span>
+          </div>
+          <InputTextField
+            className="caret-purple"
+            id="pickup-input"
             label="Enter a pickup location"
-            type="search"
+            type="text"
             autoComplete="off"
             variant="filled"
+            value={pickupValue || ''}
+            onChange={e => setPickupValue(e.target.value)}
+            InputProps={{ disableUnderline: true }}
           />
+          {pickupValue
+            ? <div className="clear-box text-center position-absolute">
+              <span
+                className="text-white cursor"
+                onClick={() => setPickupValue('')}>
+                <i className="fas fa-times"></i>
+              </span>
+            </div>
+            : ''
+          }
+        </div>
+        <div className="my-2">
+          <div className="dot-box text-center position-absolute">
+            <span className="pink">
+              <i className="fas fa-dot-circle"></i>
+            </span>
+          </div>
+          <InputTextField
+            className="caret-pink"
+            id="dropoff-input"
+            label="Enter a drop-off location"
+            type="text"
+            autoComplete="off"
+            variant="filled"
+            value={dropoffValue || ''}
+            onChange={e => setDropoffValue(e.target.value)}
+            InputProps={{ disableUnderline: true }}
+          />
+          {dropoffValue
+            ? <div className="clear-box text-center position-absolute">
+              <span
+                className="text-white cursor"
+                onClick={() => setDropoffValue('')}>
+                <i className="fas fa-times"></i>
+              </span>
+            </div>
+            : ''
+          }
         </div>
       </div>
     </div>
