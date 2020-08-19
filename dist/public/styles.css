@@ -1,3 +1,5 @@
+html, body {margin: 0; height: 100%; overflow: hidden}
+
 body {
   background-color: rgb(23,23,30);
 }
@@ -6,13 +8,17 @@ body {
   background-color: rgb(23,23,30);
 }
 
-.ride-pink {
-  font-size: 24px;
+.logo {
+  font-size: 28px;
   font-weight: bolder;
+  margin-left: 24px;
+}
+
+.ride-pink {
   color: rgb(234,57,186);
 }
 
-.ride-detail-position {
+.ride-detail-container {
   left: 3%;
   z-index: 1;
   width: 400px;
@@ -58,12 +64,12 @@ body {
   color: rgb(175,140,244);
 }
 
-.caret-purple {
-  caret-color: rgb(175,140,244);
-}
-
 .pink {
   color: rgb(223,122,194);
+}
+
+.caret-purple {
+  caret-color: rgb(175,140,244);
 }
 
 .caret-pink {
@@ -83,6 +89,25 @@ body {
 
 .text-bolder {
   font-weight: bolder;
+}
+
+.ride-btn-box {
+  width: 100%;
+  bottom: 20px;
+  left: 0;
+}
+
+.line {
+  border-bottom: 1px solid rgb(60,60,66);
+}
+
+.ride-detail-btn {
+  width: 90%;
+  height: 50px;
+  border: none;
+  border-radius: 50px;
+  color: rgb(22,23,30);
+  background-color: rgb(45, 40, 61);
 }
 
 .modal {

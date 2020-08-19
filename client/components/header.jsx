@@ -7,7 +7,7 @@ class Header extends Component {
       <header>
         <Navbar collapseOnSelect className="ride-dark fixed-top">
           <Navbar.Brand href="#home">
-            <span className="ride-pink">o-ride</span>
+            <span className="ride-pink logo">o-ride</span>
           </Navbar.Brand>
         </Navbar>
       </header>

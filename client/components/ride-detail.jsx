@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
+// import Button from '@material-ui/core/Button';
 
 const InputTextField = withStyles({
   root: {
@@ -39,7 +40,7 @@ export default function RideDetail() {
   const [dropoffValue, setDropoffValue] = useState(undefined);
 
   return (
-    <div className="position-absolute fixed-bottom ride-detail-position ride-dark">
+    <div className="position-absolute fixed-bottom ride-detail-container ride-dark">
       <div className="info-box">
         <span className="text-white">Welcome to o-ride!</span>
       </div>
@@ -103,6 +104,10 @@ export default function RideDetail() {
             : ''
           }
         </div>
+      </div>
+      <div className="ride-btn-box text-center position-absolute">
+        <hr className="line"></hr>
+        <button disabled className="ride-detail-btn">Ride detail</button>
       </div>
     </div>
   );
