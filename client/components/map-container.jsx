@@ -293,20 +293,26 @@ const MapComponent = compose(
   }),
   withScriptjs,
   withGoogleMap
-)(props => (
-  <GoogleMap
-    defaultOptions={{
-      styles: MapStyles
-    }}
-    defaultZoom={14}
-    defaultCenter={props.coordinates}>
-    <Marker position={{ lat: 38.9, lng: -77.04 }} />
-    {props.places && <MapDirection places={props.places} travelMode={window.google.maps.TravelMode.DRIVING} />}
-  </GoogleMap>
-));
+)(props =>
+  (
+    <>
+      {props.coordinates
+        ? <GoogleMap
+          defaultOptions={{
+            styles: MapStyles
+          }}
+          defaultZoom={10}
+          defaultCenter={props.coordinates}>
+          {props.marker && <Marker position={null} /> }
+          {props.places && <MapDirection places={props.places} travelMode={window.google.maps.TravelMode.DRIVING} />}
+        </GoogleMap>
+        : ''}
+    </>
+
+  ));
 
 function MapContainer() {
-  const [coordinates, setCoordinates] = useState({ lat: 38.9, lng: -77.04 });
+  const [coordinates, setCoordinates] = useState();
   const [setError] = useState({ error: null });
 
   function getCoordinates() {
@@ -318,18 +324,19 @@ function MapContainer() {
           throw new Error('Something went wrong!');
         }
       })
-      .then(data => setCoordinates({ lat: data.latitude, lng: data.longitude }))
+      .then(data => {
+        setCoordinates({ lat: data.latitude, lng: data.longitude });
+      })
       .catch(error => setError({ error, isLoading: false }));
   }
 
-  useEffect(() => getCoordinates());
+  useEffect(() => getCoordinates(), []);
 
-  return ([
+  return (
     <MapComponent
       coordinates={coordinates}
       key="map"
-    />
-  ]);
+    />);
 }
 
 export default MapContainer;

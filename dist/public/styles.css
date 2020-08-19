@@ -1,12 +1,9 @@
-.map-container {
-  /* min-width: 100vh; */
-  /* min-height: 100vh; */
-  width: 100%;
-  height: 100vh;
+body {
+  background-color: rgb(23,23,30);
 }
 
 .ride-dark {
-  background-color: rgb(23,23,30, 0.95);
+  background-color: rgb(23,23,30);
 }
 
 .ride-pink {
