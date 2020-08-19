@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { compose, withProps } from 'recompose';
 import MapDirection from './map-direction';
 import {
@@ -286,6 +286,10 @@ const MapComponent = compose(
     loadingElement: <div style={{ height: '100%' }} />,
     containerElement: <div style={{ height: '100vh' }} />,
     mapElement: <div style={{ height: '100%' }} />
+    // places: [
+    //   { lat: 38.9, lng: -77.04 },
+    //   { lat: 38.1, lng: -77.14 }
+    // ]
   }),
   withScriptjs,
   withGoogleMap
@@ -295,14 +299,37 @@ const MapComponent = compose(
       styles: MapStyles
     }}
     defaultZoom={14}
-    defaultCenter={{ lat: 38.9, lng: -77.04 }}>
+    defaultCenter={props.coordinates}>
     <Marker position={{ lat: 38.9, lng: -77.04 }} />
-    {props.directions && <MapDirection directions={props.directions} />}
+    {props.places && <MapDirection places={props.places} travelMode={window.google.maps.TravelMode.DRIVING} />}
   </GoogleMap>
 ));
 
-const MapContainer = () => [
-  <MapComponent key="map" />
-];
+function MapContainer() {
+  const [coordinates, setCoordinates] = useState({ lat: 38.9, lng: -77.04 });
+  const [setError] = useState({ error: null });
+
+  function getCoordinates() {
+    fetch('https://geoip-db.com/json/')
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error('Something went wrong!');
+        }
+      })
+      .then(data => setCoordinates({ lat: data.latitude, lng: data.longitude }))
+      .catch(error => setError({ error, isLoading: false }));
+  }
+
+  useEffect(() => getCoordinates());
+
+  return ([
+    <MapComponent
+      coordinates={coordinates}
+      key="map"
+    />
+  ]);
+}
 
 export default MapContainer;

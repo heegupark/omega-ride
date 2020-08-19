@@ -10,13 +10,14 @@ function MapDirection(props) {
     const { places, travelMode } = props;
 
     const waypoints = places.map(p => ({
-      location: { lat: p.latitude, lng: p.longitude },
+      location: { lat: p.lat, lng: p.lng },
       stopover: true
     }));
     const origin = waypoints.shift().location;
     const destination = waypoints.pop().location;
 
     const directionsService = new google.maps.DirectionsService();
+    // const directionsDisplay = new google.maps.DirectionsRenderer({ polylineOptions: { strokeColor: 'rgb(234,57,186)' } });
     directionsService.route(
       {
         origin: origin,
@@ -39,7 +40,16 @@ function MapDirection(props) {
   }
   return (
     directions && (
-      <DirectionsRenderer directions={directions} />
+      <DirectionsRenderer
+        directions={directions}
+        options={{
+          polylineOptions: {
+            strokeOpacity: 1,
+            strokeWeight: 10,
+            strokeColor: '#ea39ba'
+          }
+        }}
+      />
     )
   );
 }

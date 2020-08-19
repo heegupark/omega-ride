@@ -1,6 +1,4 @@
 require('dotenv/config');
-require('./db/mongoose');
-const rideRouter = require('./routers/ride');
 const staticMiddleware = require('./static-middleware');
 const ClientError = require('./client-error');
 const express = require('express');
@@ -10,8 +8,6 @@ app.use(express.json());
 // for socket communication
 const http = require('http');
 const server = http.createServer(app);
-// routing
-app.use(rideRouter);
 // for error handling
 app.use((err, req, res, next) => {
   if (err instanceof ClientError) {
