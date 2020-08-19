@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { compose, withProps } from 'recompose';
 import MapDirection from './map-direction';
 import {
@@ -311,30 +311,10 @@ const MapComponent = compose(
 
   ));
 
-function MapContainer() {
-  const [coordinates, setCoordinates] = useState();
-  const [setError] = useState({ error: null });
-
-  function getCoordinates() {
-    fetch('https://geoip-db.com/json/')
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          throw new Error('Something went wrong!');
-        }
-      })
-      .then(data => {
-        setCoordinates({ lat: data.latitude, lng: data.longitude });
-      })
-      .catch(error => setError({ error, isLoading: false }));
-  }
-
-  useEffect(() => getCoordinates(), []);
-
+function MapContainer(props) {
   return (
     <MapComponent
-      coordinates={coordinates}
+      coordinates={props.coordinates}
       key="map"
     />);
 }

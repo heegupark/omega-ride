@@ -13,7 +13,7 @@ const InputTextField = withStyles({
       color: 'white'
     },
     '& .MuiInputBase-input': {
-      paddingLeft: '35px',
+      paddingLeft: '40px',
       backgroundColor: 'transparent',
       color: 'white',
       borderRadius: '7px',
@@ -26,7 +26,7 @@ const InputTextField = withStyles({
       border: '1px solid rgb(128,128,131)'
     },
     '& .MuiInputBase-input:focus': {
-      paddingLeft: '35px',
+      paddingLeft: '40px',
       border: '1px solid white'
     },
     borderRadius: 5,
@@ -35,12 +35,62 @@ const InputTextField = withStyles({
   }
 })(TextField);
 
-export default function RideDetail() {
+export default function RideDetail(props) {
   const [pickupValue, setPickupValue] = useState(undefined);
+  const [list, setList] = useState({ predictions: [] });
   const [dropoffValue, setDropoffValue] = useState(undefined);
 
+  function getAddress(value) {
+    if (value) {
+      fetch(`/api/address/${value}`)
+        .then(res => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            throw new Error('Something went wrong!');
+          }
+        })
+        .then(data => {
+          setList({ predictions: data.predictions });
+        })
+        .catch(error => console.error(error.message));
+    }
+  }
+
+  function getLatLng(address) {
+    if (address) {
+      fetch(`/api/latlng/${address}`)
+        .then(res => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            throw new Error('Something went wrong!');
+          }
+        })
+        .then(data => {
+          props.setCoordinates(data.results[0].geometry.location);
+        })
+        .catch(error => console.error(error.message));
+    }
+  }
+  // useEffect(() => getAddress(pickupValue), [pickupValue]);
+
+  function setValue(value, category, action) {
+    if (action === 'address') {
+      getAddress(value);
+    } else if (action === 'coordinate') {
+      getLatLng(value);
+    }
+    if (category === 'pickup') {
+      setPickupValue(value);
+    } else if (category === 'dropoff') {
+      setDropoffValue(value);
+    }
+    setList({ predictions: [] });
+  }
+
   return (
-    <div className="position-absolute fixed-bottom ride-detail-container ride-dark">
+    <div className="position-absolute fixed-bottom ride-detail-container ride-dark px-3 pt-3">
       <div className="info-box">
         <span className="text-white">Welcome to o-ride!</span>
       </div>
@@ -62,7 +112,7 @@ export default function RideDetail() {
             autoComplete="off"
             variant="filled"
             value={pickupValue || ''}
-            onChange={e => setPickupValue(e.target.value)}
+            onChange={e => setValue(e.target.value, 'pickup', 'address')}
             InputProps={{ disableUnderline: true }}
           />
           {pickupValue
@@ -90,7 +140,7 @@ export default function RideDetail() {
             autoComplete="off"
             variant="filled"
             value={dropoffValue || ''}
-            onChange={e => setDropoffValue(e.target.value)}
+            onChange={e => setValue(e.target.value, 'dropoff', 'address')}
             InputProps={{ disableUnderline: true }}
           />
           {dropoffValue
@@ -105,6 +155,24 @@ export default function RideDetail() {
           }
         </div>
       </div>
+      {list && list.predictions.map((data, index) => {
+        const address = data.description.split(',')[0];
+        const city = data.description.split(',')[1];
+        return (
+          <div
+            key={index}
+            className="row px-4 address-detail-box py-2 cursor"
+            onClick={() => setValue(data.description, '', 'coordinate')}>
+            <div className="my-auto mx-auto col-sm-1 text-center address-head bg-purple">
+              <i className="marker-custom fas fa-map-marker-alt"></i>
+            </div>
+            <div className="col-sm">
+              <p className="text-white mb-0">{address}</p>
+              <p className="text-gray mb-0">{city}</p>
+            </div>
+          </div>
+        );
+      })}
       <div className="ride-btn-box text-center position-absolute">
         <hr className="line"></hr>
         <button disabled className="ride-detail-btn">Ride detail</button>
