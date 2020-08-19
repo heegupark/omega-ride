@@ -12,6 +12,9 @@ module.exports = {
   output: {
     path: publicPath
   },
+  node: {
+    fs: 'empty'
+  },
   module: {
     rules: [
       {

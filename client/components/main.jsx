@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Map from './map';
+import MapContainer from './map-container';
 import RideDetail from './ride-detail';
 
 class Main extends Component {
@@ -8,7 +8,7 @@ class Main extends Component {
     return (
       <main>
         <RideDetail />
-        <Map />
+        <MapContainer />
       </main>
     );
   }
