@@ -15,7 +15,9 @@ function TripDetail(props) {
       <div className="row">
         <p className="text-white h6 ml-3 mb-0">Trip details</p>
       </div>
-      <div className="row my-1">
+      <div
+        onClick={() => props.setView('set-destination')}
+        className="row my-1 cursor">
         <div className="my-auto w-20p text-center">
           <span className="purple font-12px">
             <i className="fas fa-dot-circle"></i>
@@ -29,7 +31,9 @@ function TripDetail(props) {
           {'pickup'}
         </div>
       </div>
-      <div className="row my-1">
+      <div
+        onClick={() => props.setView('set-destination')}
+        className="row my-1 cursor">
         <div className="my-auto w-20p text-center">
           <span className="pink font-12px">
             <i className="fas fa-dot-circle"></i>

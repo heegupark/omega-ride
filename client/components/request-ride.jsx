@@ -53,6 +53,7 @@ function RequestRide(props) {
         <TripDetail
           pickupValue={props.pickupValue}
           dropoffValue={props.pickupValue}
+          setView={props.setView}
         />
       </div>
       <div className="row line-thick"></div>

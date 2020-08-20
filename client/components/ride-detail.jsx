@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Destination from './destination';
+import SetDestination from './set-destination';
 import RequestRide from './request-ride';
 
 export default function RideDetail(props) {
@@ -7,6 +7,7 @@ export default function RideDetail(props) {
   const [list, setList] = useState({ predictions: [] });
   const [dropoffValue, setDropoffValue] = useState(undefined);
   const [category, setCategory] = useState('pickup');
+  const [view, setView] = useState('set-destination');
 
   function getAddress(value) {
     if (value) {
@@ -40,6 +41,7 @@ export default function RideDetail(props) {
             props.setOrigin(data.results[0].geometry.location);
           } else if (category === 'dropoff') {
             props.setDestination(data.results[0].geometry.location);
+            setView('request-ride');
           }
           props.setCoordinates(data.results[0].geometry.location);
         })
@@ -65,18 +67,22 @@ export default function RideDetail(props) {
 
   return (
     <div className="position-absolute fixed-bottom ride-detail-container ride-dark px-3 pt-3">
-      {props.origin && props.destination
+      {view === 'request-ride'
         ? <RequestRide
           origin={props.origin}
           destination={props.destination}
+          setView={setView}
           pickupValue={pickupValue}
           dropoffValue={pickupValue}
         />
-        : <Destination
+        : <SetDestination
+          origin={props.origin}
+          destination={props.destination}
           pickupValue={pickupValue}
           dropoffValue={dropoffValue}
           setCategory={setCategory}
           setValue={setValue}
+          setView={setView}
           setPickupValue={setPickupValue}
           setDropoffValue={setDropoffValue}
           list={list}

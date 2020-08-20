@@ -34,8 +34,9 @@ const InputTextField = withStyles({
   }
 })(TextField);
 
-function Destination(props) {
+function SetDestination(props) {
   const { pickupValue, setCategory, setValue, setPickupValue, dropoffValue, setDropoffValue, list, category } = props;
+  const reqBtnDisabled = props.origin && props.destination;
   return (
     <>
       <div className="info-box">
@@ -127,10 +128,13 @@ function Destination(props) {
       }
       <div className="ride-btn-box text-center position-absolute">
         <hr className="line"></hr>
-        <button disabled className="ride-detail-btn bg-purple-disabled text-bolder">ride detail</button>
+        <button
+          disabled={!(reqBtnDisabled)}
+          onClick={() => props.setView('request-ride')}
+          className={`ride-detail-btn text-bolder ${reqBtnDisabled ? 'bg-purple' : 'bg-purple-disabled'}`}>ride detail</button>
       </div>
     </>
   );
 }
 
-export default Destination;
+export default SetDestination;
