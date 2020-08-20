@@ -33,7 +33,7 @@ function MapDirection(props) {
         }
       }
     );
-  });
+  }, []);
 
   if (error) {
     return <h1>{error}</h1>;
@@ -44,8 +44,8 @@ function MapDirection(props) {
         directions={directions}
         options={{
           polylineOptions: {
-            strokeOpacity: 1,
-            strokeWeight: 10,
+            strokeOpacity: 0.7,
+            strokeWeight: 7,
             strokeColor: '#ea39ba'
           }
         }}

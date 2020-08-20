@@ -129,8 +129,43 @@ body {
 }
 
 .text-gray {
-  color: rgb(186,186,188);
+  color: rgb(181,181,183);
 }
+
+.font-14px {
+  font-size: 14px;
+}
+
+.ride-box {
+  width: 100%;
+  height: 75px;
+  border-radius: 7px;
+}
+
+.border-2px-gray {
+  border: 2px solid rgb(61, 61, 63);
+}
+
+.border-2px-purple {
+  border: 2px solid rgb(175,140,244);
+}
+
+.ride-img-box > img {
+  height: 28px;
+}
+
+.ride-img-box {
+  width: 20%;
+}
+
+.ride-detail-box {
+  width: 60%;
+}
+
+.ride-estimate-box {
+  width: 20%;
+}
+
 
 .marker-custom {
   font-size: 20px;
