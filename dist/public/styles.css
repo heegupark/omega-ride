@@ -110,10 +110,6 @@ body {
   background-color: rgb(45, 40, 61);
 }
 
-.address-detail-box {
-
-}
-
 .address-detail-box:hover {
   background-color: rgb(36, 36, 36);
 }
@@ -126,6 +122,10 @@ body {
 
 .bg-purple {
   background-color: rgb(175,140,244);
+}
+
+.bg-pink {
+  background-color: rgb(223,122,194);
 }
 
 .text-gray {

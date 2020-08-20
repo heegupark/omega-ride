@@ -1,5 +1,6 @@
 require('dotenv/config');
 const axios = require('axios');
+const distance = require('google-distance-matrix');
 const staticMiddleware = require('./static-middleware');
 const ClientError = require('./client-error');
 const express = require('express');
@@ -10,10 +11,10 @@ app.use(express.json());
 const http = require('http');
 const server = http.createServer(app);
 // GET ADDRESS
-app.get('/api/address/:query', (req, res) => {
-  const { query } = req.params;
+app.get('/api/address/:address', (req, res) => {
+  const { address } = req.params;
   try {
-    axios.get(`https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&input=${query}`)
+    axios.get(`https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&input=${address}`)
       .then(data => {
         return res.status(200).send(data.data);
       })
@@ -23,10 +24,10 @@ app.get('/api/address/:query', (req, res) => {
   }
 });
 // GET LATITUDE AND LON
-app.get('/api/latlng/:query', (req, res) => {
-  const { query } = req.params;
+app.get('/api/latlng/:address', (req, res) => {
+  const { address } = req.params;
   try {
-    axios.get(`https://maps.googleapis.com/maps/api/geocode/json?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&address=${query}`)
+    axios.get(`https://maps.googleapis.com/maps/api/geocode/json?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&address=${address}`)
       .then(data => {
         return res.status(200).send(data.data);
       })
@@ -34,6 +35,39 @@ app.get('/api/latlng/:query', (req, res) => {
   } catch (e) {
     return res.status(500).send();
   }
+});
+// GET DISTANCE
+app.post('/api/distance', (req, res) => {
+  const { origin, distination } = req.body;
+  var origins = [origin];
+  var destinations = [distination];
+
+  distance.key(process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
+  distance.units('imperial');
+  distance.mode('driving');
+
+  distance.matrix(origins, destinations, (error, distances) => {
+    if (error) {
+      return res.status(500).send(error.message);
+    }
+    if (!distances) {
+      return res.status(500).send({ error, message: 'no distances' });
+    }
+    if (distances.status === 'OK') {
+      for (let i = 0; i < origins.length; i++) {
+        for (let j = 0; j < destinations.length; j++) {
+          const origin = distances.origin_addresses[i];
+          const destination = distances.destination_addresses[j];
+          if (distances.rows[0].elements[j].status === 'OK') {
+            const distance = distances.rows[i].elements[j].distance.text;
+            return res.send(distance);
+          } else {
+            return res.status(500).send({ error, message: `${destination} is not reachable by land from ${origin}` });
+          }
+        }
+      }
+    }
+  });
 });
 // for error handling
 app.use((err, req, res, next) => {
