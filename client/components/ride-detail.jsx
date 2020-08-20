@@ -67,6 +67,8 @@ export default function RideDetail(props) {
     <div className="position-absolute fixed-bottom ride-detail-container ride-dark px-3 pt-3">
       {props.origin && props.destination
         ? <RequestRide
+          origin={props.origin}
+          destination={props.destination}
           pickupValue={pickupValue}
           dropoffValue={pickupValue}
         />

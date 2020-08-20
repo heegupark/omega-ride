@@ -6,7 +6,7 @@ class Header extends Component {
     return (
       <header>
         <Navbar collapseOnSelect className="ride-dark fixed-top">
-          <Navbar.Brand href="#home">
+          <Navbar.Brand href="/">
             <span className="ride-pink logo">o-ride</span>
           </Navbar.Brand>
         </Navbar>

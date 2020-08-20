@@ -5,7 +5,7 @@ class Footer extends Component {
     return (
       <footer className="fixed-bottom">
         <div className="row mx-auto">
-          <div className="col text-center">
+          <div className="col text-gray text-center font-12px">
             Omegathrone makes ©o-ride
           </div>
         </div>

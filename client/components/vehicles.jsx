@@ -1,7 +1,7 @@
 import React from 'react';
 
 function Vehicles(props) {
-  const { vehicles, select, setSelect, estimate } = props;
+  const { vehicles, select, setSelect, estimate, estimateWeight } = props;
   return (
     <>
       {vehicles.map(vehicle => {
@@ -28,6 +28,7 @@ function Vehicles(props) {
             imgUrl = '/images/ride.png';
             rideDesc = 'ride';
         }
+        const totalEstimate = Math.floor(estimate * estimateWeight[vehicle]);
         return (
           <div
             key={vehicle}
@@ -37,11 +38,11 @@ function Vehicles(props) {
               <img src={imgUrl} alt="ride" />
             </div>
             <div className="ride-detail-box my-auto">
-              <p className="h5 text-white mb-0">{rideDesc}</p>
+              <p className="h6 text-white mb-0">{rideDesc}</p>
               <p className="font-14px text-gray mb-0">{'4 seats'}</p>
             </div>
             <div className="my-auto text-white ride-estimate-box">
-              {`$${estimate - 1} - ${estimate + 1}`}
+              {`$${totalEstimate - 1} - ${totalEstimate + 1}`}
             </div>
           </div>
         );

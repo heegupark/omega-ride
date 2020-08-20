@@ -38,10 +38,9 @@ app.get('/api/latlng/:address', (req, res) => {
 });
 // GET DISTANCE
 app.post('/api/distance', (req, res) => {
-  const { origin, distination } = req.body;
-  var origins = [origin];
-  var destinations = [distination];
-
+  const { origin, destination } = req.body;
+  const origins = [`${origin.lat},${origin.lng}`];
+  const destinations = [`${destination.lat},${destination.lng}`];
   distance.key(process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
   distance.units('imperial');
   distance.mode('driving');
@@ -60,7 +59,7 @@ app.post('/api/distance', (req, res) => {
           const destination = distances.destination_addresses[j];
           if (distances.rows[0].elements[j].status === 'OK') {
             const distance = distances.rows[i].elements[j].distance.text;
-            return res.send(distance);
+            return res.json({ distance });
           } else {
             return res.status(500).send({ error, message: `${destination} is not reachable by land from ${origin}` });
           }

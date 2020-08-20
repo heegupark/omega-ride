@@ -13,7 +13,7 @@ function TripDetail(props) {
   return (
     <>
       <div className="row">
-        <p className="text-white h6 ml-2 mb-0">Trip details</p>
+        <p className="text-white h6 ml-3 mb-0">Trip details</p>
       </div>
       <div className="row my-1">
         <div className="my-auto w-20p text-center">
