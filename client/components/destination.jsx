@@ -127,7 +127,7 @@ function Destination(props) {
       }
       <div className="ride-btn-box text-center position-absolute">
         <hr className="line"></hr>
-        <button disabled className="ride-detail-btn">Ride detail</button>
+        <button disabled className="ride-detail-btn bg-purple-disabled text-bolder">ride detail</button>
       </div>
     </>
   );

@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import Vehicles from './vehicles';
+import TripDetail from './trip-detail';
+import PaymentSummary from './payment-summary';
 
 function RequestRide(props) {
   // const [distance, setDistance] = useState([]);
@@ -11,54 +14,33 @@ function RequestRide(props) {
     <>
       <div className="my-1">
         <h4 className="text-white text-bolder">Fare estimate</h4>
-        <span className="font-14px text-gray">Sample fares are estimates only and do not reflect variations due to discounts, traffic delays or other factors.</span>
-        <span className="font-14px text-danger">* This is not real estimates.</span>
+        <p className="font-12px text-danger mb-0">* This is not real estimates.</p>
+        <p className="font-12px text-gray mb-0">Sample fares are estimates only and do not reflect variations due to discounts, traffic delays or other factors.</p>
       </div>
       <div className="my-3">
-        {vehicles.map(vehicle => {
-          let imgUrl = '/images/ride.png';
-          let rideDesc = 'ride';
-          switch (vehicle) {
-            case 1:
-              imgUrl = '/images/ride-xl.png';
-              rideDesc = 'ride XL';
-              break;
-            case 2:
-              imgUrl = '/images/lux.png';
-              rideDesc = 'lux';
-              break;
-            case 3:
-              imgUrl = '/images/lux-black.png';
-              rideDesc = 'lux black';
-              break;
-            case 4:
-              imgUrl = '/images/lux-black-xl.png';
-              rideDesc = 'lux black XL';
-              break;
-            default:
-              imgUrl = '/images/ride.png';
-              rideDesc = 'ride';
-          }
-          return (
-            <div
-              key={vehicle}
-              onClick={() => setSelect(vehicle)}
-              className={`${select === vehicle ? 'border-2px-purple' : 'border-2px-gray'} mx-auto ride-box row cursor my-2`}>
-              <div className="ride-img-box my-auto">
-                <img src={imgUrl} alt="ride" />
-              </div>
-              <div className="ride-detail-box my-auto">
-                <p className="h5 text-white mb-0">{rideDesc}</p>
-                <p className="font-14px text-gray mb-0">{'4 seats'}</p>
-              </div>
-              <div className="my-auto text-white ride-estimate-box">
-                {`$${estimate - 1} - ${estimate + 1}`}
-              </div>
-            </div>
-          );
-        }
-        )
-        }
+        <Vehicles
+          vehicles={vehicles}
+          select={select}
+          setSelect={setSelect}
+          estimate={estimate}
+        />
+      </div>
+      <div className="row line-thick"></div>
+      <div className="my-3">
+        <TripDetail
+          pickupValue={props.pickupValue}
+          dropoffValue={props.pickupValue}
+        />
+      </div>
+      <div className="row line-thick"></div>
+      <div className="my-3">
+        <PaymentSummary
+          estimate={estimate}
+        />
+      </div>
+      <div className="ride-btn-box text-center position-absolute">
+        <hr className="line"></hr>
+        <button className="ride-detail-btn bg-purple text-bolder bg-purple-btn">request ride</button>
       </div>
     </>
   );
