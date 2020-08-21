@@ -50,4 +50,4 @@
 ## Screen shot
 [Desktop]
 
-![Omega Ride](https://github.com/heegupark/omega-ride/ride-ss-001.gif)
+![Omega Ride](https://github.com/heegupark/omega-ride/dist/public/images/ride-ss-001.gif)
