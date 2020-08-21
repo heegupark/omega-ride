@@ -47,7 +47,8 @@ function MapDirection(props) {
             strokeOpacity: 0.7,
             strokeWeight: 7,
             strokeColor: '#ea39ba'
-          }
+          },
+          suppressMarkers: true
         }}
       />
     )

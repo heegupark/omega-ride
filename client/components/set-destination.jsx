@@ -35,7 +35,7 @@ const InputTextField = withStyles({
 })(TextField);
 
 function SetDestination(props) {
-  const { pickupValue, setCategory, setValue, setPickupValue, dropoffValue, setDropoffValue, list, category } = props;
+  const { pickupValue, setCategory, setValue, dropoffValue, clearFields, list, category } = props;
   const reqBtnDisabled = props.origin && props.destination;
   return (
     <>
@@ -68,7 +68,7 @@ function SetDestination(props) {
             ? <div className="clear-box text-center position-absolute">
               <span
                 className="text-white cursor"
-                onClick={() => setPickupValue('')}>
+                onClick={() => clearFields('pickup')}>
                 <i className="fas fa-times"></i>
               </span>
             </div>
@@ -97,7 +97,8 @@ function SetDestination(props) {
             ? <div className="clear-box text-center position-absolute">
               <span
                 className="text-white cursor"
-                onClick={() => setDropoffValue('')}>
+                // onClick={() => setDropoffValue('')}>
+                onClick={() => clearFields('dropoff')}>
                 <i className="fas fa-times"></i>
               </span>
             </div>

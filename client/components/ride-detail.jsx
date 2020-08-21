@@ -39,9 +39,16 @@ export default function RideDetail(props) {
         .then(data => {
           if (category === 'pickup') {
             props.setOrigin(data.results[0].geometry.location);
+            if (props.destination) {
+              // props.setMarker(false);
+              setView('request-ride');
+            }
           } else if (category === 'dropoff') {
             props.setDestination(data.results[0].geometry.location);
-            setView('request-ride');
+            if (props.origin) {
+              // props.setMarker(false);
+              setView('request-ride');
+            }
           }
           props.setCoordinates(data.results[0].geometry.location);
         })
@@ -65,6 +72,18 @@ export default function RideDetail(props) {
     setList({ predictions: [] });
   }
 
+  function clearFields(category) {
+    if (category === 'pickup') {
+      setPickupValue('');
+      props.setOrigin(null);
+    } else if (category === 'dropoff') {
+      setDropoffValue('');
+      props.setDestination(null);
+    }
+    props.setMarker(false);
+    props.setZoom(10);
+  }
+
   return (
     <div className="position-absolute fixed-bottom ride-detail-container ride-dark px-3 pt-3">
       {view === 'request-ride'
@@ -83,8 +102,7 @@ export default function RideDetail(props) {
           setCategory={setCategory}
           setValue={setValue}
           setView={setView}
-          setPickupValue={setPickupValue}
-          setDropoffValue={setDropoffValue}
+          clearFields={clearFields}
           list={list}
           category={category}
         />

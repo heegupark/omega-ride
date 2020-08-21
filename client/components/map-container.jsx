@@ -36,7 +36,8 @@ const MapStyles = [
   { featureType: 'water', elementType: 'labels.text.fill', stylers: [{ color: '#4e6d70' }] }
 ];
 
-const purpleMarker = { url: 'https://mt.google.com/vt/icon/name=icons/spotlight/spotlight-ad.png' };
+const purpleMarker = { url: 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png' };
+const pinkMarker = { url: 'http://maps.google.com/mapfiles/ms/icons/pink-dot.png' };
 
 const MapComponent = compose(
   withProps({
@@ -60,12 +61,18 @@ const MapComponent = compose(
           defaultZoom={10}
           defaultCenter={props.coordinates}
           center={props.coordinates}>
-          {props.marker &&
+          {props.marker && props.origin &&
             <Marker
               icon={purpleMarker}
               clickable={false}
-              position={props.coordinates}
+              position={props.origin}
             /> }
+          {props.marker && props.destination &&
+            <Marker
+              icon={pinkMarker}
+              clickable={false}
+              position={props.destination}
+            />}
           {props.origin && props.destination && <MapDirection places={[props.origin, props.destination]} travelMode={window.google.maps.TravelMode.DRIVING} />}
         </GoogleMap>
         : ''}
