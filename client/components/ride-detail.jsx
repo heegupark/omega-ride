@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import SetDestination from './set-destination';
 import SelectRide from './select-ride';
 import BottomBtn from './bottom-btn';
+import { isMobile } from 'react-device-detect';
+import { useWindowWidth } from '@react-hook/window-size';
 
 export default function RideDetail(props) {
   const [pickupValue, setPickupValue] = useState(undefined);
@@ -16,6 +18,8 @@ export default function RideDetail(props) {
   const [isRequesting, setIsRequesting] = useState(false);
   const [tripDistance, setTripDistance] = useState(null);
   const [riderDistance, setRiderDistance] = useState(null);
+  const [height, setHeight] = useState(isMobile ? '50%' : useWindowWidth() < 900 ? '50%' : '90%');
+  const positionRef = React.createRef();
 
   useEffect(() => setVehicles([0, 1, 2, 3, 4]), []);
 
@@ -138,6 +142,18 @@ export default function RideDetail(props) {
     setView('set-destination');
   }
 
+  function handleDrag(e) {
+    e.preventDefault();
+    let adjustedHeight = 50;
+    if (event.clientY) {
+      adjustedHeight = Math.floor(100 - event.clientY / window.innerHeight * 100);
+      if (adjustedHeight < 30) adjustedHeight = 30;
+      if (adjustedHeight > 90) adjustedHeight = 90;
+      positionRef.current.style.height = `${adjustedHeight}%`;
+      setHeight(`${adjustedHeight}%`);
+    }
+  }
+
   let element = null;
   switch (view) {
     case 'select-ride':
@@ -182,7 +198,15 @@ export default function RideDetail(props) {
   const reqBtnDisabled = props.origin && props.destination;
   return (
     <>
-      <div className="position-absolute fixed-bottom ride-detail-container ride-dark px-3 pt-3">
+      <div
+        style={{ height }}
+        ref={positionRef}
+        className="position-absolute fixed-bottom ride-detail-container ride-dark px-3 pt-3">
+        <div
+          draggable
+          onDrag={e => handleDrag(e)}
+          className="drag-handle mx-auto ns-resize">
+        </div>
         {element}
       </div>
       <BottomBtn
