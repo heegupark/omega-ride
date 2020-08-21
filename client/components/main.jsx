@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MapContainer from './map-container';
 import RideDetail from './ride-detail';
+import Disclaimer from './disclaimer';
 
 function Main() {
   const [coordinates, setCoordinates] = useState();
@@ -9,6 +10,7 @@ function Main() {
   const [origin, setOrigin] = useState();
   const [rider, setRider] = useState();
   const [destination, setDestination] = useState();
+  const [isAcceptDisclaimer, setIsAcceptDisclaimer] = useState(localStorage.getItem('omegarideaccept', true));
 
   function getCoordinates() {
     fetch('https://geoip-db.com/json/')
@@ -48,6 +50,11 @@ function Main() {
         destination={destination}
         coordinates={coordinates}
       />
+      {!isAcceptDisclaimer &&
+      <Disclaimer
+        setIsAcceptDisclaimer={setIsAcceptDisclaimer}
+      />
+      }
     </main>
   );
 }
