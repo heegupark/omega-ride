@@ -46,7 +46,7 @@ function MapDirection(props) {
           polylineOptions: {
             strokeOpacity: 0.7,
             strokeWeight: 7,
-            strokeColor: '#ea39ba'
+            strokeColor: props.color
           },
           suppressMarkers: true
         }}

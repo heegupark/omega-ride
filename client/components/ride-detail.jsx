@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SetDestination from './set-destination';
-import RequestRide from './request-ride';
+import SelectRide from './select-ride';
 
 export default function RideDetail(props) {
   const [pickupValue, setPickupValue] = useState(undefined);
@@ -8,6 +8,11 @@ export default function RideDetail(props) {
   const [dropoffValue, setDropoffValue] = useState(undefined);
   const [category, setCategory] = useState('pickup');
   const [view, setView] = useState('set-destination');
+  const [select, setSelect] = useState(0);
+  const [vehicles, setVehicles] = useState([]);
+  const [estimateWeight] = useState([1, 1.25, 1.5, 1.75, 2]);
+
+  useEffect(() => setVehicles([0, 1, 2, 3, 4]), []);
 
   function getAddress(value) {
     if (value) {
@@ -41,13 +46,13 @@ export default function RideDetail(props) {
             props.setOrigin(data.results[0].geometry.location);
             if (props.destination) {
               // props.setMarker(false);
-              setView('request-ride');
+              setView('select-ride');
             }
           } else if (category === 'dropoff') {
             props.setDestination(data.results[0].geometry.location);
             if (props.origin) {
               // props.setMarker(false);
-              setView('request-ride');
+              setView('select-ride');
             }
           }
           props.setCoordinates(data.results[0].geometry.location);
@@ -84,17 +89,29 @@ export default function RideDetail(props) {
     props.setZoom(10);
   }
 
-  return (
-    <div className="position-absolute fixed-bottom ride-detail-container ride-dark px-3 pt-3">
-      {view === 'request-ride'
-        ? <RequestRide
+  let element = null;
+  switch (view) {
+    case 'select-ride':
+      element = (
+        <SelectRide
           origin={props.origin}
           destination={props.destination}
           setView={setView}
+          select={select}
+          setSelect={setSelect}
+          vehicles={vehicles}
+          setVehicles={setVehicles}
+          estimateWeight={estimateWeight}
           pickupValue={pickupValue}
           dropoffValue={pickupValue}
+          rider={props.rider}
+          setRider={props.setRider}
         />
-        : <SetDestination
+      );
+      break;
+    case 'set-destination':
+      element = (
+        <SetDestination
           origin={props.origin}
           destination={props.destination}
           pickupValue={pickupValue}
@@ -106,7 +123,13 @@ export default function RideDetail(props) {
           list={list}
           category={category}
         />
-      }
+      );
+      break;
+  }
+
+  return (
+    <div className="position-absolute fixed-bottom ride-detail-container ride-dark px-3 pt-3">
+      {element}
     </div>
   );
 }

@@ -40,7 +40,8 @@ function SetDestination(props) {
   return (
     <>
       <div className="info-box">
-        <span className="text-white">Welcome to o-ride!</span>
+        <p className="text-white mb-0">{'Welcome to o-ride!'}</p>
+        <p className="text-danger mb-0">{'* This is demonstration purpose.'}</p>
       </div>
       <div className="mt-3">
         <h4 className="text-white text-bolder">Where are you going?</h4>
@@ -131,7 +132,7 @@ function SetDestination(props) {
         <hr className="line"></hr>
         <button
           disabled={!(reqBtnDisabled)}
-          onClick={() => props.setView('request-ride')}
+          onClick={() => props.setView('select-ride')}
           className={`ride-detail-btn text-bolder ${reqBtnDisabled ? 'bg-purple' : 'bg-purple-disabled'}`}>ride detail</button>
       </div>
     </>

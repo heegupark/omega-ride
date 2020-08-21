@@ -38,6 +38,7 @@ const MapStyles = [
 
 const purpleMarker = { url: 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png' };
 const pinkMarker = { url: 'http://maps.google.com/mapfiles/ms/icons/pink-dot.png' };
+const carMarker = { url: 'http://maps.google.com/mapfiles/ms/icons/cabs.png' };
 
 const MapComponent = compose(
   withProps({
@@ -73,11 +74,25 @@ const MapComponent = compose(
               clickable={false}
               position={props.destination}
             />}
-          {props.origin && props.destination && <MapDirection places={[props.origin, props.destination]} travelMode={window.google.maps.TravelMode.DRIVING} />}
+          {props.marker && props.rider &&
+            <Marker
+              icon={carMarker}
+              clickable={false}
+              position={props.rider}
+            />}
+          {props.origin && props.destination &&
+            <MapDirection
+              color={'#ea39ba'}
+              places={[props.origin, props.destination]}
+              travelMode={window.google.maps.TravelMode.DRIVING} />}
+          {props.rider && props.origin &&
+            <MapDirection
+              color={'#af8cf4'}
+              places={[props.rider, props.origin]}
+              travelMode={window.google.maps.TravelMode.DRIVING} />}
         </GoogleMap>
         : ''}
     </>
-
   ));
 
 function MapContainer(props) {
@@ -86,6 +101,7 @@ function MapContainer(props) {
       zoom={props.zoom}
       marker={props.marker}
       origin={props.origin}
+      rider={props.rider}
       destination={props.destination}
       coordinates={props.coordinates}
       key="map"

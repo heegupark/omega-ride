@@ -7,6 +7,7 @@ function Main() {
   const [zoom, setZoom] = useState(10);
   const [marker, setMarker] = useState(false);
   const [origin, setOrigin] = useState();
+  const [rider, setRider] = useState();
   const [destination, setDestination] = useState();
 
   function getCoordinates() {
@@ -36,11 +37,14 @@ function Main() {
         destination={destination}
         setOrigin={setOrigin}
         setDestination={setDestination}
+        rider={rider}
+        setRider={setRider}
       />
       <MapContainer
         zoom={zoom}
         marker={marker}
         origin={origin}
+        rider={rider}
         destination={destination}
         coordinates={coordinates}
       />
