@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SetDestination from './set-destination';
 import SelectRide from './select-ride';
+import BottomBtn from './bottom-btn';
 
 export default function RideDetail(props) {
   const [pickupValue, setPickupValue] = useState(undefined);
@@ -11,6 +12,10 @@ export default function RideDetail(props) {
   const [select, setSelect] = useState(0);
   const [vehicles, setVehicles] = useState([]);
   const [estimateWeight] = useState([1, 1.25, 1.5, 1.75, 2]);
+  const [requestedRider, setRequestedRider] = useState(false);
+  const [isRequesting, setIsRequesting] = useState(false);
+  const [tripDistance, setTripDistance] = useState(null);
+  const [riderDistance, setRiderDistance] = useState(null);
 
   useEffect(() => setVehicles([0, 1, 2, 3, 4]), []);
 
@@ -89,6 +94,50 @@ export default function RideDetail(props) {
     props.setZoom(10);
   }
 
+  function getDistance(category, origin, destination) {
+    // const { origin, destination, rider } = props;
+    const body = { origin, destination };
+    fetch('/api/distance', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    }
+    ).then(res => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error('Something went wrong!');
+      }
+    })
+      .then(data => {
+        if (category === 'trip') { setTripDistance(data.distance); }
+        if (category === 'rider') { setRiderDistance(data.distance); }
+      })
+      .catch(error => console.error(error.message));
+  }
+
+  function requestRideBtn() {
+    const requestedTime = Math.random(0, 1) * 2000;
+    const diff = Math.random(0, 1) * 0.05;
+    const lat = Number((props.origin.lat - diff).toFixed(4));
+    const lng = Number((props.origin.lng - diff).toFixed(4));
+    const rider = { lat, lng };
+    props.setRider(rider);
+    getDistance('rider', props.origin, rider);
+    setRequestedRider(true);
+    setIsRequesting(true);
+    setTimeout(() => {
+      setIsRequesting(false);
+    }, requestedTime);
+  }
+
+  function startOver() {
+    setIsRequesting(false);
+    setRequestedRider(false);
+    props.setRider(null);
+    setView('set-destination');
+  }
+
   let element = null;
   switch (view) {
     case 'select-ride':
@@ -101,11 +150,15 @@ export default function RideDetail(props) {
           setSelect={setSelect}
           vehicles={vehicles}
           setVehicles={setVehicles}
+          tripDistance={tripDistance}
+          riderDistance={riderDistance}
+          getDistance={getDistance}
           estimateWeight={estimateWeight}
           pickupValue={pickupValue}
           dropoffValue={pickupValue}
           rider={props.rider}
           setRider={props.setRider}
+          requestedRider={requestedRider}
         />
       );
       break;
@@ -126,10 +179,21 @@ export default function RideDetail(props) {
       );
       break;
   }
-
+  const reqBtnDisabled = props.origin && props.destination;
   return (
-    <div className="position-absolute fixed-bottom ride-detail-container ride-dark px-3 pt-3">
-      {element}
-    </div>
+    <>
+      <div className="position-absolute fixed-bottom ride-detail-container ride-dark px-3 pt-3">
+        {element}
+      </div>
+      <BottomBtn
+        view={view}
+        setView={setView}
+        reqBtnDisabled={reqBtnDisabled}
+        requestedRider={requestedRider}
+        isRequesting={isRequesting}
+        startOver={startOver}
+        requestRideBtn={requestRideBtn}
+      />
+    </>
   );
 }

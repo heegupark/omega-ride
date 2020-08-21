@@ -36,7 +36,7 @@ const InputTextField = withStyles({
 
 function SetDestination(props) {
   const { pickupValue, setCategory, setValue, dropoffValue, clearFields, list, category } = props;
-  const reqBtnDisabled = props.origin && props.destination;
+  // const reqBtnDisabled = props.origin && props.destination;
   return (
     <>
       <div className="info-box">
@@ -117,10 +117,10 @@ function SetDestination(props) {
               key={index}
               className="row px-4 address-detail-box py-2 cursor"
               onClick={() => setValue(data.description, category, 'coordinate')}>
-              <div className={`my-auto mx-auto col-sm-1 text-center address-head ${bgColor}`}>
+              <div className={`my-auto w-10p text-center address-head ${bgColor}`}>
                 <i className="marker-custom fas fa-map-marker-alt"></i>
               </div>
-              <div className="col-sm">
+              <div className="w-90p pl-3">
                 <p className="text-white mb-0">{address}</p>
                 <p className="text-gray mb-0">{city}</p>
               </div>
@@ -128,13 +128,6 @@ function SetDestination(props) {
           );
         })
       }
-      <div className="ride-btn-box text-center position-absolute">
-        <hr className="line"></hr>
-        <button
-          disabled={!(reqBtnDisabled)}
-          onClick={() => props.setView('select-ride')}
-          className={`ride-detail-btn text-bolder ${reqBtnDisabled ? 'bg-purple' : 'bg-purple-disabled'}`}>ride detail</button>
-      </div>
     </>
   );
 }

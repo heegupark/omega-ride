@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Vehicles from './vehicles';
 import TripDetail from './trip-detail';
 import PaymentSummary from './payment-summary';
@@ -18,58 +18,12 @@ const useStyles = makeStyles(theme => ({
 
 function SelectRide(props) {
   const classes = useStyles();
-  const [tripDistance, setTripDistance] = useState(null);
-  const [riderDistance, setRiderDistance] = useState(null);
-  const [requestedRider, setRequestedRider] = useState(false);
-  const [isRequesting, setIsRequesting] = useState(false);
 
-  function getDistance(category, origin, destination) {
-    // const { origin, destination, rider } = props;
-    const body = { origin, destination };
-    fetch('/api/distance', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    }
-    ).then(res => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        throw new Error('Something went wrong!');
-      }
-    })
-      .then(data => {
-        if (category === 'trip') { setTripDistance(data.distance); }
-        if (category === 'rider') { setRiderDistance(data.distance); }
-      })
-      .catch(error => console.error(error.message));
-  }
-  useEffect(() => getDistance('trip', props.origin, props.destination), []);
+  useEffect(() => props.getDistance('trip', props.origin, props.destination), []);
 
-  function requestRideBtn() {
-    const requestedTime = Math.random(0, 1) * 2000;
-    const diff = Math.random(0, 1) * 0.05;
-    const lat = Number((props.origin.lat - diff).toFixed(4));
-    const lng = Number((props.origin.lng - diff).toFixed(4));
-    const rider = { lat, lng };
-    props.setRider(rider);
-    getDistance('rider', props.origin, rider);
-    setRequestedRider(true);
-    setIsRequesting(true);
-    setTimeout(() => {
-      setIsRequesting(false);
-    }, requestedTime);
-  }
-
-  function startOver() {
-    setIsRequesting(false);
-    setRequestedRider(false);
-    props.setView('set-destination');
-  }
-
-  const estimate = tripDistance ? Number(tripDistance.split(' ')[0]) * 2 : 10;
-  const approachEstimate = riderDistance ? Math.floor(Number(riderDistance.split(' ')[0])) : 10;
-  const { vehicles, select, setSelect, estimateWeight } = props;
+  const estimate = props.tripDistance ? Number(props.tripDistance.split(' ')[0]) * 2 : 10;
+  const approachEstimate = props.riderDistance ? Math.floor(Number(props.riderDistance.split(' ')[0])) : 10;
+  const { requestedRider, isRequesting, vehicles, select, setSelect, estimateWeight } = props;
   return (
     <>
       <div className="box-520px">
@@ -131,19 +85,6 @@ function SelectRide(props) {
           estimate={estimate}
           estimateWeight={estimateWeight}
         />
-      </div>
-      <div className="ride-btn-box text-center position-absolute">
-        <hr className="line"></hr>
-        {requestedRider
-          ? <button
-            disabled={isRequesting}
-            onClick={() => startOver()}
-            className={`ride-detail-btn bg-purple text-bolder ${isRequesting ? 'bg-pink-btn-disabled' : 'bg-pink-btn'}`}>{'start over'}</button>
-          : <button
-            onClick={() => requestRideBtn()}
-            className="ride-detail-btn bg-purple text-bolder bg-purple-btn">request ride</button>
-        }
-
       </div>
     </>
   );
