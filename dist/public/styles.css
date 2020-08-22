@@ -22,9 +22,15 @@ body {
   left: 3%;
   z-index: 1;
   width: 400px;
+  top: 10%;
+  height: 90%;
   border-radius: 7px;
   padding: 15px 15px 0px 15px;
   overflow: scroll;
+}
+
+.margin-4-btn {
+  height: 100px;
 }
 
 .drag-handle {
@@ -220,6 +226,11 @@ body {
   cursor: ns-resize;
 }
 
+.scrollY-overflow {
+  height: 100%;
+  overflow: scroll;
+}
+
 .border-2px-gray {
   border: 2px solid rgb(61, 61, 63);
 }
@@ -283,6 +294,9 @@ body {
 
   .drag-handle {
     display: block;
+    z-index: 2;
+    /* top: 51%; */
+    left: 15%;
     width: 100px;
     height: 3px;
     border-radius: 2px;
@@ -303,11 +317,10 @@ body {
 
   .ride-detail-container {
     left: 0%;
-    z-index: 1;
     width: 100%;
-    border-radius: 7px;
+    top: 50%;
+    height: 50%;
     padding: 10px 10px 0px 10px;
-    overflow: scroll;
   }
 }
 
