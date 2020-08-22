@@ -69,7 +69,7 @@ function SelectRide(props) {
           )
         }
       </div>
-      <div className="row line-thick"></div>
+      <div className="line-thick"></div>
       <div className="my-3">
         <TripDetail
           pickupValue={props.pickupValue}
@@ -77,7 +77,7 @@ function SelectRide(props) {
           setView={props.setView}
         />
       </div>
-      <div className="row line-thick"></div>
+      <div className="line-thick"></div>
       <div className="my-3">
         <PaymentSummary
           vehicles={vehicles}

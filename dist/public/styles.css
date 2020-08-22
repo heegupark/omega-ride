@@ -18,15 +18,23 @@ body {
   color: rgb(234,57,186);
 }
 
+.z-index-1 {
+  z-index: 1;
+}
+
 .ride-detail-container {
   left: 3%;
-  z-index: 1;
   width: 400px;
   top: 10%;
   height: 90%;
   border-radius: 7px;
-  padding: 15px 15px 0px 15px;
+}
+
+.ride-detail-content {
+  width: 93%;
+  height: 100%;
   overflow: scroll;
+  padding: 7px 0px 0px 0px;
 }
 
 .margin-4-btn {
@@ -295,12 +303,11 @@ body {
   .drag-handle {
     display: block;
     z-index: 2;
-    /* top: 51%; */
-    left: 15%;
-    width: 100px;
+    width: 20%;
     height: 3px;
     border-radius: 2px;
     background-color: rgb(128,128,131);
+    cursor: -webkit-grab;
   }
 
   .dot-box {
@@ -320,7 +327,10 @@ body {
     width: 100%;
     top: 50%;
     height: 50%;
-    padding: 10px 10px 0px 10px;
+  }
+
+  .ride-detail-content {
+    width: 97%;
   }
 }
 
@@ -333,6 +343,10 @@ body {
 @media (max-width: 575.98px) {
   .dot-box {
     margin-top: 5%;
+  }
+
+  .ride-detail-content {
+    width: 92%;
   }
 }
 

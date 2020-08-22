@@ -115,7 +115,7 @@ function SetDestination(props) {
           return (
             <div
               key={index}
-              className="row px-4 address-detail-box py-2 cursor"
+              className="d-flex px-4 address-detail-box py-2 cursor"
               onClick={() => setValue(data.description, category, 'coordinate')}>
               <div className={`my-auto w-10p text-center address-head ${bgColor}`}>
                 <i className="marker-custom fas fa-map-marker-alt"></i>

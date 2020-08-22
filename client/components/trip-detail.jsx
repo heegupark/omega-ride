@@ -12,12 +12,12 @@ function TripDetail(props) {
   const dropoffZipcode = dropoffValue.split(',')[3];
   return (
     <>
-      <div className="row">
+      <div className="d-flex">
         <p className="text-white h6 ml-3 mb-0">Trip details</p>
       </div>
       <div
         onClick={() => props.setView('set-destination')}
-        className="row my-1 cursor">
+        className="d-flex my-1 cursor">
         <div className="my-auto w-20p text-center">
           <span className="purple font-12px">
             <i className="fas fa-dot-circle"></i>
@@ -33,7 +33,7 @@ function TripDetail(props) {
       </div>
       <div
         onClick={() => props.setView('set-destination')}
-        className="row my-1 cursor">
+        className="d-flex my-1 cursor">
         <div className="my-auto w-20p text-center">
           <span className="pink font-12px">
             <i className="fas fa-dot-circle"></i>

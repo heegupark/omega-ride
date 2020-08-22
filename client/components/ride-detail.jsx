@@ -16,8 +16,6 @@ export default function RideDetail(props) {
   const [isRequesting, setIsRequesting] = useState(false);
   const [tripDistance, setTripDistance] = useState(null);
   const [riderDistance, setRiderDistance] = useState(null);
-  const [handleTop, setHandleTop] = useState(51);
-  const positionRef = React.createRef();
 
   useEffect(() => setVehicles([0, 1, 2, 3, 4]), []);
 
@@ -182,23 +180,18 @@ export default function RideDetail(props) {
       break;
   }
 
-  function goDown() {
-    setHandleTop(handleTop + 30);
-  }
-
   const reqBtnDisabled = props.origin && props.destination;
   return (
     <>
       <div
-        style={{ top: `${handleTop}%` }}
-        className="fixed-top drag-handle"
-        onClick={() => goDown()}
-      ></div>
-      <div
-        ref={positionRef}
-        className="position-absolute ride-detail-container ride-dark px-3 pt-2">
-        {element}
-        <div className="margin-4-btn"></div>
+        className="position-absolute ride-dark ride-detail-container z-index-1 px-3 pt-2 ">
+        <div className="drag-handle mx-auto">
+        </div>
+        <div
+          className="position-absolute ride-detail-content z-index-1">
+          {element}
+          <div className="margin-4-btn"></div>
+        </div>
       </div>
       <BottomBtn
         view={view}
