@@ -209,14 +209,14 @@ export default function RideDetail(props) {
   return (
     <>
       <a.div
-        ref={elementRef}
-        {...bind()}
         style={{ display, bottom: `calc(100vh + ${height - 100}px)`, y }}
         className={'position-absolute ride-dark ride-detail-container z-index-1 px-3 pt-2'}>
-        <div
+        <a.div
+          {...bind()}
+          ref={elementRef}
           onClick={() => !draggingRef.current && close()}
           className="drag-handle mx-auto">
-        </div>
+        </a.div>
         <div
           className="position-absolute ride-detail-content z-index-1">
           {element}

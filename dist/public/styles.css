@@ -47,7 +47,13 @@ body {
 }
 
 .drag-handle {
-  display: none;
+  display: block;
+  z-index: 2;
+  width: 20%;
+  height: 3px;
+  border-radius: 2px;
+  background-color: rgb(128,128,131);
+  cursor: -webkit-grab;
 }
 
 .info-box {
@@ -284,16 +290,6 @@ body {
 @media (max-width: 899.99px) {
   .info-box {
     display: none;
-  }
-
-  .drag-handle {
-    display: block;
-    z-index: 2;
-    width: 20%;
-    height: 3px;
-    border-radius: 2px;
-    background-color: rgb(128,128,131);
-    cursor: -webkit-grab;
   }
 
   .dot-box {
