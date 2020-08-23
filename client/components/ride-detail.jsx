@@ -193,7 +193,6 @@ export default function RideDetail(props) {
   const close = (velocity = 0) => {
     set({ y: height, config: { ...config.stiff, velocity } });
   };
-
   const bind = useDrag(
     ({ first, last, vxvy: [, vy], movement: [, my], cancel, canceled }) => {
       if (first) draggingRef.current = false;
@@ -205,6 +204,7 @@ export default function RideDetail(props) {
   );
   const display = y.to(py => (py < height ? 'block' : 'block'));
   open(true);
+
   const reqBtnDisabled = props.origin && props.destination;
   return (
     <>
@@ -215,7 +215,8 @@ export default function RideDetail(props) {
           {...bind()}
           ref={elementRef}
           onClick={() => !draggingRef.current && close()}
-          className="drag-handle mx-auto">
+          className="drag-handle-box">
+          <div className="drag-handle mx-auto"></div>
         </a.div>
         <div
           className="position-absolute ride-detail-content z-index-1">
