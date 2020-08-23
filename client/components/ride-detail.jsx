@@ -195,14 +195,14 @@ export default function RideDetail(props) {
   };
   const bind = useDrag(
     ({ first, last, vxvy: [, vy], movement: [, my], cancel, canceled }) => {
-      if (first) draggingRef.current = false;
+      if (first) draggingRef.current = true;
       else if (last) setTimeout(() => (draggingRef.current = false), 0);
-      if (last) my > height * 0.5 || vy > 0.5 ? open(vy) : close(vy);
+      if (last) my > height * 0.5 || vy > 0.25 ? open(vy) : close(vy);
       else set({ y: my, immediate: false, config: config.stiff });
     },
     { initial: () => [0, y.get()], filterTaps: true, bounds: { top: 10 }, rubberband: true }
   );
-  const display = y.to(py => (py < height ? 'block' : 'block'));
+  const display = y.to(py => 'block');
   open(true);
 
   const reqBtnDisabled = props.origin && props.destination;
