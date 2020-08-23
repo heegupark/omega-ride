@@ -36,14 +36,13 @@ const InputTextField = withStyles({
 
 function SetDestination(props) {
   const { pickupValue, setCategory, setValue, dropoffValue, clearFields, list, category } = props;
-  // const reqBtnDisabled = props.origin && props.destination;
   return (
     <>
-      <div className="info-box">
+      <div className="info-box mb-2">
         <p className="text-white mb-0">{'Welcome to o-ride!'}</p>
         <p className="text-danger mb-0">{'* This is demonstration purpose.'}</p>
       </div>
-      <div className="mt-3">
+      <div className="mt-1">
         <h4 className="text-white text-bolder">Where are you going?</h4>
       </div>
       <div className="my-3 mx-auto">
@@ -115,7 +114,7 @@ function SetDestination(props) {
           return (
             <div
               key={index}
-              className="row px-4 address-detail-box py-2 cursor"
+              className="d-flex px-4 address-detail-box py-2 cursor"
               onClick={() => setValue(data.description, category, 'coordinate')}>
               <div className={`my-auto w-10p text-center address-head ${bgColor}`}>
                 <i className="marker-custom fas fa-map-marker-alt"></i>

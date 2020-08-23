@@ -33,7 +33,7 @@ function Vehicles(props) {
           <div
             key={vehicle}
             onClick={() => setSelect(vehicle)}
-            className={`${select === vehicle ? 'border-2px-purple' : 'border-2px-gray'} mx-auto ride-box row cursor my-2`}>
+            className={`${select === vehicle ? 'border-2px-purple' : 'border-2px-gray'} mx-auto ride-box d-flex cursor my-2`}>
             <div className="ride-img-box my-auto">
               <img src={imgUrl} alt="ride" />
             </div>

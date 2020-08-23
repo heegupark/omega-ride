@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import SetDestination from './set-destination';
 import SelectRide from './select-ride';
 import BottomBtn from './bottom-btn';
-import { isMobile } from 'react-device-detect';
-import { useWindowWidth } from '@react-hook/window-size';
+import { useSpring, a, config } from 'react-spring';
+import { useDrag } from 'react-use-gesture';
 
 export default function RideDetail(props) {
   const [pickupValue, setPickupValue] = useState(undefined);
@@ -18,8 +18,7 @@ export default function RideDetail(props) {
   const [isRequesting, setIsRequesting] = useState(false);
   const [tripDistance, setTripDistance] = useState(null);
   const [riderDistance, setRiderDistance] = useState(null);
-  const [height, setHeight] = useState(isMobile ? '50%' : useWindowWidth() < 900 ? '50%' : '90%');
-  const positionRef = React.createRef();
+  const elementRef = React.createRef();
 
   useEffect(() => setVehicles([0, 1, 2, 3, 4]), []);
 
@@ -99,7 +98,6 @@ export default function RideDetail(props) {
   }
 
   function getDistance(category, origin, destination) {
-    // const { origin, destination, rider } = props;
     const body = { origin, destination };
     fetch('/api/distance', {
       method: 'POST',
@@ -140,18 +138,6 @@ export default function RideDetail(props) {
     setRequestedRider(false);
     props.setRider(null);
     setView('set-destination');
-  }
-
-  function handleDrag(e) {
-    e.preventDefault();
-    let adjustedHeight = 50;
-    if (event.clientY) {
-      adjustedHeight = Math.floor(100 - event.clientY / window.innerHeight * 100);
-      if (adjustedHeight < 30) adjustedHeight = 30;
-      if (adjustedHeight > 90) adjustedHeight = 90;
-      positionRef.current.style.height = `${adjustedHeight}%`;
-      setHeight(`${adjustedHeight}%`);
-    }
   }
 
   let element = null;
@@ -195,20 +181,48 @@ export default function RideDetail(props) {
       );
       break;
   }
+
+  const height = window.innerHeight * 0.6;
+  const draggingRef = useRef(true);
+  const [{ y }, set] = useSpring(() => ({ y: height }));
+  const myPos = 0;
+
+  const open = ({ canceled }) => {
+    set({ y: myPos, config: canceled ? config.wobbly : config.stiff });
+  };
+  const close = (velocity = 0) => {
+    set({ y: height, config: { ...config.stiff, velocity } });
+  };
+
+  const bind = useDrag(
+    ({ first, last, vxvy: [, vy], movement: [, my], cancel, canceled }) => {
+      if (first) draggingRef.current = false;
+      else if (last) setTimeout(() => (draggingRef.current = false), 0);
+      if (last) my > height * 0.5 || vy > 0.5 ? open(vy) : close(vy);
+      else set({ y: my, immediate: false, config: config.stiff });
+    },
+    { initial: () => [0, y.get()], filterTaps: true, bounds: { top: 10 }, rubberband: true }
+  );
+  const display = y.to(py => (py < height ? 'block' : 'block'));
+  open(true);
   const reqBtnDisabled = props.origin && props.destination;
   return (
     <>
-      <div
-        style={{ height }}
-        ref={positionRef}
-        className="position-absolute fixed-bottom ride-detail-container ride-dark px-3 pt-3">
+      <a.div
+        ref={elementRef}
+        {...bind()}
+        style={{ display, bottom: `calc(100vh + ${height - 100}px)`, y }}
+        className={'position-absolute ride-dark ride-detail-container z-index-1 px-3 pt-2'}>
         <div
-          draggable
-          onDrag={e => handleDrag(e)}
-          className="drag-handle mx-auto ns-resize">
+          onClick={() => !draggingRef.current && close()}
+          className="drag-handle mx-auto">
         </div>
-        {element}
-      </div>
+        <div
+          className="position-absolute ride-detail-content z-index-1">
+          {element}
+          <div className="margin-4-btn"></div>
+        </div>
+      </a.div>
       <BottomBtn
         view={view}
         setView={setView}
